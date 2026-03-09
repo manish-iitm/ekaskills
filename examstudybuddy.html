@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <!-- favicon & apple touch from original -->
+    <link rel="icon" href="https://questions.examside.com/favicon.ico" />
+    <link rel="apple-touch-icon" href="https://questions.examside.com/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- main stylesheet (original) -->
+    <link href="https://questions.examside.com/_app/immutable/assets/0.9eB0i26e.css" rel="stylesheet">
+
+    <title>JEE Main, JEE Advanced, NEET, GATE - ExamSIDE.Com</title>
+    <meta name="description" content="Past Years Exams Questions with Solutions provider ExamSIDE.Com">
+
+    <!-- fonts & preconnects (original) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Tiro+Devanagari+Hindi&family=Roboto:wght@400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet';" />
+    <link rel="preload" href="https://cdn.examgoal.net/questions-examside/v2.2/stylesheets/atom.one.light.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="preconnect" href="https://app-content.cdn.examgoal.net" />
+    <link rel="preconnect" href="https://app-assets.cdn.examgoal.net" />
+    <link rel="preconnect" href="https://cdn.examgoal.net" />
+    <meta name="twitter:domain" content="questions.examside.com" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@examgoal" />
+    <meta name="og:site:name" content="ExamSIDE Questions" />
+    <meta name="og:type" content="website" />
+    <meta name="og:locale" content="en" />
+    <meta name="theme-color" content="#2563eb" />
+
+    <!-- dark mode detection (original) -->
+    <script>
+        const colorMode =
+            window.localStorage.getItem('nuxt-color-mode') ||
+            window.localStorage.getItem('color-theme') ||
+            'light';
+        if (colorMode === 'dark') window.document.documentElement.classList.add('dark');
+        window.localStorage.removeItem('nuxt-color-mode');
+    </script>
+
+    <!-- MathJax config (original) -->
+    <script>
+        window.MathJax = {
+            startup: { typeset: false },
+            options: {
+                enableMenu: false,
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            tex: {
+                inlineMath: [
+                    ['$', '$'],
+                    ['$$', '$$']
+                ],
+                displayMath: [['$$$', '$$$']]
+            },
+            loader: {
+                load: ['input/asciimath', '[tex]/noerrors']
+            },
+            chtml: { mtextInheritFont: true, minScale: 1, exFactor: 1 }
+        };
+    </script>
+
+    <!-- extra style: eka logo, iframe overlay with floating red close button, fullscreen layout -->
+    <style>
+        /* ensure full viewport coverage, no scroll conflicts */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Roboto', system-ui, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        /* top logo bar – exactly "eka↑ SCHOOL OF SKILLS" */
+        .eka-top-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 24px;
+            border-bottom: 1px solid #eef2f6;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .eka-logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #1e293b, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .school-skills-text {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #334155;
+            border-left: 2px solid #cbd5e1;
+            padding-left: 16px;
+        }
+
+        /* main content (original exam cards) – allow natural scroll */
+        .main-content {
+            flex: 1;
+            width: 100%;
+        }
+
+        /* iframe overlay - full screen (covers entire viewport) */
+        .iframe-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            z-index: 99999; /* highest */
+            display: none; /* hidden by default */
+        }
+        .iframe-overlay.active {
+            display: block;
+        }
+
+        /* floating red close button (ONLY red button, no header bar) */
+        .close-iframe-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100000; /* above iframe */
+            background: #ef4444;
+            color: white;
+            border: 2px solid white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(220, 38, 38, 0.5);
+            transition: transform 0.2s, background 0.2s;
+            line-height: 1;
+        }
+        .close-iframe-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .iframe-content {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* ensure all anchor tags inside cards have pointer cursor */
+        .card a {
+            cursor: pointer;
+        }
+
+        /* small override for dark mode compatibility (keep original) */
+        .dark .close-iframe-btn {
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6);
+        }
+    </style>
+</head>
+<body data-sveltekit-preload-data="hover">
+
+<!-- eka logo (exactly as requested) -->
+<div class="eka-top-bar">
+    <span class="eka-logo-text">eka↑</span>
+    <span class="school-skills-text">SCHOOL OF SKILLS</span>
+</div>
+
+<!-- ===== ORIGINAL FULL CONTENT (all exams, exactly as from the first file, merged with second to ensure completeness) ===== -->
+<div class="main-content">
+<div class="flex flex-col gap-2 lg:gap-4 py-4 lg:px-4">
+    <!-- Engineering Entrance Examination -->
+    <div class="flex flex-col gap-2 lg:gap-4">
+        <div class="text-lg font-semibold max-lg:px-4">Engineering Entrance Examination</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 hd:grid-cols-4 2k:grid-cols-5 4k:grid-cols-7 gap-2 lg:gap-4">
+            <!-- JEE Main -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/jee-main.png" alt="JEE Main">
+                    <div class="py-2"><h2 class="text-lg">JEE Main</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/jee-main" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/jee-main" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- JEE Advanced -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/jee-advanced.png" alt="JEE Advanced">
+                    <div class="py-2"><h2 class="text-lg">JEE Advanced</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/jee-advanced" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/jee-advanced" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- MHT CET -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/mht-cet.png" alt="MHT CET">
+                    <div class="py-2"><h2 class="text-lg">MHT CET</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/mht-cet" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/mht-cet" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- BITSAT -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/bitsat.png" alt="BITSAT">
+                    <div class="py-2"><h2 class="text-lg">BITSAT</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/bitsat" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/bitsat" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- COMEDK -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/comedk.png" alt="COMEDK">
+                    <div class="py-2"><h2 class="text-lg">COMEDK</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/comedk" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/comedk" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- WB JEE -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/wbjee.png" alt="WB JEE">
+                    <div class="py-2"><h2 class="text-lg">WB JEE</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/wb-jee" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/wb-jee" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- KCET -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/kcet.png" alt="KCET">
+                    <div class="py-2"><h2 class="text-lg">KCET</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/kcet" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/kcet" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- VITEEE -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/assets/5ef25410-97bb-4621-853a-755d0bbaac4d/348328b0-eb61-11ee-831d-6530431f76f8/6y3zli1lu89xfp8.png" alt="VITEEE">
+                    <div class="py-2"><h2 class="text-lg">VITEEE</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/viteee" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/viteee" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- AP EAPCET -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/assets/67db133c-ba65-4e2c-ad65-05158ae574a3/a9db1730-387d-11ef-afbe-73a2e898f5a9/jaoe38c1ly4hsb39.png" alt="AP EAPCET">
+                    <div class="py-2"><h2 class="text-lg">AP EAPCET</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/ap-eapcet" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/ap-eapcet" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- TS EAMCET -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/assets/6dd28730-004e-4717-bdcb-88d719ed6def/739edcd0-d173-11ef-b8cb-250dbba0307d/jaoe38c1m5umvggu.png" alt="TS EAMCET">
+                    <div class="py-2"><h2 class="text-lg">TS EAMCET</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/ts-eamcet" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/ts-eamcet" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- IAT (IISER) -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/assets/0e359091-6260-42af-bb0d-5ad7d2e88c20/7c7eaee0-2658-11f0-a3e5-29ab2addad42/jaoe38c1ma50977y.png" alt="IAT (IISER)">
+                    <div class="py-2"><h2 class="text-lg">IAT (IISER)</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/jee/iat-iiser" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/jee/iat-iiser" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Medical -->
+    <div class="flex flex-col gap-2 lg:gap-4">
+        <div class="text-lg font-semibold max-lg:px-4">Medical</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 hd:grid-cols-4 2k:grid-cols-5 4k:grid-cols-7 gap-2 lg:gap-4">
+            <!-- NEET -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/jee-main.png" alt="NEET">
+                    <div class="py-2"><h2 class="text-lg">NEET</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/medical/neet" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/medical/neet" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- AIIMS -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/assets/5ca40f45-b700-4f46-9b8f-83745abac08c/fc927a90-6799-11ef-8b22-651b64eb4256/jaoe38c1m0i5qvui.png" alt="AIIMS">
+                    <div class="py-2"><h2 class="text-lg">AIIMS</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/medical/aiims" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/medical/aiims" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- MHT CET (Biology) -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center">
+                    <img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/jee/mht-cet.png" alt="MHT CET (Biology)">
+                    <div class="py-2"><h2 class="text-lg">MHT CET (Biology)</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div>
+                </div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/medical/mht-cet-biology" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/medical/mht-cet-biology" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Graduate Aptitude Test in Engineering (GATE) all branches from second file -->
+    <div class="flex flex-col gap-2 lg:gap-4">
+        <div class="text-lg font-semibold max-lg:px-4">Graduate Aptitude Test in Engineering</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 hd:grid-cols-4 2k:grid-cols-5 4k:grid-cols-7 gap-2 lg:gap-4">
+            <!-- GATE CSE -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/gate/cse.png" alt="GATE CSE"><div class="py-2"><h2 class="text-lg">GATE CSE</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/gate/gate-cse" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/gate/gate-cse" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- GATE ECE -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/gate/ece.png" alt="GATE ECE"><div class="py-2"><h2 class="text-lg">GATE ECE</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/gate/gate-ece" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/gate/gate-ece" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- GATE EE -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/gate/ee.png" alt="GATE EE"><div class="py-2"><h2 class="text-lg">GATE EE</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/gate/gate-ee" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/gate/gate-ee" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- GATE ME -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/gate/me.png" alt="GATE ME"><div class="py-2"><h2 class="text-lg">GATE ME</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/gate/gate-me" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/gate/gate-me" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- GATE CE -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/gate/ce.png" alt="GATE CE"><div class="py-2"><h2 class="text-lg">GATE CE</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/gate/gate-ce" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/gate/gate-ce" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- GATE PI -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/gate/pi.png" alt="GATE PI"><div class="py-2"><h2 class="text-lg">GATE PI</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/gate/gate-pi" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/gate/gate-pi" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- GATE IN -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/gate/in.png" alt="GATE IN"><div class="py-2"><h2 class="text-lg">GATE IN</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/gate/gate-in" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/gate/gate-in" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+            <!-- GATE DA -->
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/in/gate/cse.png" alt="GATE Data Science and Artificial Intelligence"><div class="py-2"><h2 class="text-lg">GATE Data Science and AI</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/gate/gate-da" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/gate/gate-da" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Civil Services -->
+    <div class="flex flex-col gap-2 lg:gap-4">
+        <div class="text-lg font-semibold max-lg:px-4">Civil Services</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 hd:grid-cols-4 2k:grid-cols-5 4k:grid-cols-7 gap-2 lg:gap-4">
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/assets/5934fd03-d35c-42e7-b582-f058dd46bd57/324c2970-0876-11ef-b9c4-01b5e1672438/6y3zli1lvp5p37s.png" alt="UPSC Civil Service"><div class="py-2"><h2 class="text-lg">UPSC Civil Service</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/civil-services/upsc-civil-service" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/civil-services/upsc-civil-service" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Defence -->
+    <div class="flex flex-col gap-2 lg:gap-4">
+        <div class="text-lg font-semibold max-lg:px-4">Defence</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 hd:grid-cols-4 2k:grid-cols-5 4k:grid-cols-7 gap-2 lg:gap-4">
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/assets/624092ec-6f87-4440-9fac-93c921e8668e/c68613a0-1bde-11ef-ba88-abbdc110e2a5/6y3zli1lwog7v8b.png" alt="NDA"><div class="py-2"><h2 class="text-lg">NDA</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/defence/nda" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/defence/nda" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SSC -->
+    <div class="flex flex-col gap-2 lg:gap-4">
+        <div class="text-lg font-semibold max-lg:px-4">Staff Selection Commission</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 hd:grid-cols-4 2k:grid-cols-5 4k:grid-cols-7 gap-2 lg:gap-4">
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/assets/c293926d-776b-4c5d-87c7-c94d7c4c1112/614e3c70-6106-11ef-a495-011539d502ba/jaoe38c1m06789mf.png" alt="SSC CGL Tier I"><div class="py-2"><h2 class="text-lg">SSC CGL Tier I</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/ssc/ssc-cgl-tier-i" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/ssc/ssc-cgl-tier-i" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- CBSE -->
+    <div class="flex flex-col gap-2 lg:gap-4">
+        <div class="text-lg font-semibold max-lg:px-4">CBSE</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 hd:grid-cols-4 2k:grid-cols-5 4k:grid-cols-7 gap-2 lg:gap-4">
+            <div class="card lg:rounded-xl py-4 lg:py-8 flex flex-col gap-4">
+                <div class="px-6 flex gap-3 items-center"><img class="w-[55px]" src="https://app-assets.cdn.examgoal.net/fly/@width/image/exam-icons/cbse.png" alt="Class 12"><div class="py-2"><h2 class="text-lg">Class 12</h2><div class="text-sm opacity-70">Previous Years Questions with Solutions</div></div></div>
+                <div class="text-right px-6 flex gap-2">
+                    <a href="https://questions.examside.com/past-years/year-wise/cbse/class-12" class="py-2 px-6 block w-auto text-center rounded-xl text-green-600 border-2 dark:border-gray-400 grow">Paper Wise</a>
+                    <a href="https://questions.examside.com/past-years/cbse/class-12" class="py-2 px-6 block w-auto text-center rounded-xl border-2 dark:border-gray-400 text-red-500 dark:text-red-400 grow">Chapter Wise</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div> <!-- end main-content -->
+
+<!-- FULL SCREEN IFRAME OVERLAY with floating red close button (modified version: no header, just red X) -->
+<div id="iframeOverlay" class="iframe-overlay">
+    <button id="closeIframeBtn" class="close-iframe-btn" title="Close (X)">✕</button>
+    <iframe id="iframeContent" class="iframe-content" src="about:blank" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"></iframe>
+</div>
+
+<!-- JavaScript: intercept all links to examside.com and open in iframe -->
+<script>
+    (function() {
+        const overlay = document.getElementById('iframeOverlay');
+        const iframe = document.getElementById('iframeContent');
+        const closeBtn = document.getElementById('closeIframeBtn');
+
+        // Close function
+        function closeIframe() {
+            overlay.classList.remove('active');
+            iframe.src = 'about:blank';
+            document.body.style.overflow = ''; // restore scroll
+        }
+
+        closeBtn.addEventListener('click', closeIframe);
+
+        // Global click handler for links
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            if (!href) return;
+
+            // Avoid handling if it's a hash link or javascript
+            if (href.startsWith('#') || href.startsWith('javascript:')) return;
+
+            // Match any link pointing to examside.com (including relative ones that might resolve to it)
+            // Using includes for 'examside.com' as the safe identifier (covers all examside domains)
+            if (href.includes('examside.com') || href.startsWith('https://questions.examside.com/') || href.startsWith('/past-years/') || href.startsWith('past-years/')) {
+                e.preventDefault();
+
+                let fullUrl;
+                try {
+                    fullUrl = new URL(href, window.location.origin).href;
+                } catch (err) {
+                    fullUrl = href; // fallback
+                }
+
+                // Ensure URL is absolute (if relative, already resolved)
+                iframe.src = fullUrl;
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // lock background scroll
+            }
+        });
+
+        // Escape key closes overlay
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                closeIframe();
+            }
+        });
+    })();
+</script>
+
+<!-- SvelteKit initialization (original, kept untouched) -->
+<script>
+    {
+        __sveltekit_1cs8nr1 = {
+            base: new URL(".", location).pathname.slice(0, -1),
+            assets: "https://cdn.examgoal.net/questions-examside/v2.2"
+        };
+        const element = document.currentScript.parentElement;
+        Promise.all([
+            import("https://cdn.examgoal.net/questions-examside/v2.2/_app/immutable/entry/start.BSgzazT6.js"),
+            import("https://cdn.examgoal.net/questions-examside/v2.2/_app/immutable/entry/app.CRuCwHyS.js")
+        ]).then(([kit, app]) => {
+            kit.start(app, element, {
+                node_ids: [0, 3],
+                data: [{"type":"data","data":{nav:{examGroups:[]}},"uses":{}},null],
+                form: null,
+                error: null
+            });
+        });
+    }
+</script>
+
+<!-- deferred scripts (original) -->
+<script>
+    function addScript(url) {
+        const element = document.createElement('script');
+        element.src = url;
+        element.defer = true;
+        document.body.appendChild(element);
+    }
+    function downloadJSAtOnload() {
+        addScript(
+            'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8367669190234763'
+        );
+        addScript('https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js');
+        addScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js');
+    }
+    if (window.addEventListener) window.addEventListener('load', downloadJSAtOnload, false);
+    else if (window.attachEvent) window.attachEvent('onload', downloadJSAtOnload);
+    else window.onload = downloadJSAtOnload;
+</script>
+
+</body>
+</html>

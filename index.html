@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKA School of Skills | Learn Skills That Actually Matter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #6366f1;
+            --background: #ffffff;
+            --text-light: #f8fafc;
+            --text-dark: #334155;
+            --border-light: #e2e8f0;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        h1 { font-size: 3.5rem; line-height: 1.1; }
+        h2 { font-size: 2.5rem; line-height: 1.2; margin-bottom: 2rem; text-align: center; }
+        h3 { font-size: 1.5rem; }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text-light);
+            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #eef2ff;
+            color: var(--accent);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(224, 231, 255, 0.6);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        .main-header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* Navigation */
+        .main-nav {
+            display: none;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        .header-actions {
+            display: none;
+            gap: 1rem;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 101;
+        }
+        .hamburger .bar {
+            display: block;
+            width: 2rem;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+        .hamburger.is-active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.is-active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.is-active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Mobile Nav */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--background);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: left 0.3s ease-in-out;
+        }
+        .mobile-nav.is-active {
+            left: 0;
+        }
+        .mobile-nav .nav-links {
+            flex-direction: column;
+            gap: 2rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .mobile-nav .header-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+            width: 80%;
+        }
+        .mobile-nav .header-actions .btn {
+            width: 100%;
+            text-align: center;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding-top: 160px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .hero-text h1 {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-text p {
+            font-size: 1.25rem;
+            max-width: 500px;
+            margin: 1.5rem 0 2rem;
+        }
+        .hero-text .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        .hero-visual {
+            position: relative;
+            height: 300px;
+        }
+        .skill-card-animated {
+            position: absolute;
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+            border: 1px solid var(--border-light);
+            width: 200px;
+            animation: float 6s ease-in-out infinite;
+        }
+        .skill-card-animated:nth-child(1) { top: 0; left: 20%; animation-delay: 0s; }
+        .skill-card-animated:nth-child(2) { top: 30%; left: 0; animation-delay: 2s; }
+        .skill-card-animated:nth-child(3) { top: 50%; left: 40%; animation-delay: 4s; }
+        .skill-card-animated h4 { font-size: 1rem; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Social Proof */
+        .social-proof .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .stat-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+        .stat-card .number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-card {
+            background: var(--background);
+            border: 1px solid var(--border-light);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.07);
+        }
+        .skill-card .icon { font-size: 2rem; margin-bottom: 1rem; color: var(--accent); }
+        
+        /* Why EKA */
+        .why-eka .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .why-eka .illustration {
+             background: #f8fafc;
+             height: 350px;
+             border-radius: 12px;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             font-size: 3rem;
+        }
+        .why-eka ul {
+            list-style: none;
+            padding: 0;
+        }
+        .why-eka li {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .why-eka li::before {
+            content: '✔';
+            color: var(--accent);
+            margin-right: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Featured Courses */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .course-card {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.07);
+        }
+        .course-card-content {
+            padding: 1.5rem;
+        }
+        .course-card .level {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #475569;
+            margin: 0.5rem 0;
+        }
+        .course-card .price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+        .course-card .btn {
+            width: 100%;
+            text-align: center;
+        }
+        
+        /* How it works */
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .step-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .step-card .step-number {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .testimonial-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+        .testimonial-card p:first-child {
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            margin-top: 1.5rem;
+            text-align: right;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(45deg, var(--primary), #1e293b);
+            color: var(--text-light);
+            border-radius: 20px;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        .cta-section h2 {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .cta-section .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: #f8fafc;
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--border-light);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        .footer-column h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-column a {
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: color 0.2s ease;
+        }
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 4.5rem; }
+            .hero .container { grid-template-columns: 1.2fr 1fr; }
+            .why-eka .container { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: repeat(4, 1fr); }
+            .footer-column.about { grid-column: span 2; }
+        }
+        
+        @media (min-width: 1024px) {
+            .main-nav {
+                display: flex;
+            }
+            .header-actions {
+                display: flex;
+            }
+            .hamburger {
+                display: none;
+            }
+            .hero-visual { height: 400px; }
+            .skill-card-animated { width: 250px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">EKA</a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="examstudybuddy.html">Exam Study Buddy</a></li>
+                    <li><a href="#curriculum">Curriculum</a></li>
+                    <li><a href="#admission">Admission</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                 <a href="#login" class="btn btn-secondary">Login</a>
+                 <a href="#signup" class="btn btn-primary">Sign Up</a>
+            </div>
+            <button class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="mobile-nav">
+        <ul class="nav-links">
+            <li><a href="examstudybuddy.html">Exam Study Buddy</a></li>
+            <li><a href="#curriculum">Curriculum</a></li>
+            <li><a href="#admission">Admission</a></li>
+            <li><a href="#projects">Projects</a></li>
+        </ul>
+        <div class="header-actions">
+            <a href="#login" class="btn btn-secondary">Login</a>
+            <a href="#signup" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-text fade-in">
+                    <h1>Learn Skills That School Never Taught You</h1>
+                    <p>EKA School of Skills helps students learn <strong>real-world skills, build projects, and create opportunities.</strong></p>
+                    <div class="cta-buttons">
+                        <a href="#cta" class="btn btn-primary">Start Learning</a>
+                        <a href="#skills" class="btn btn-secondary">Explore Skills</a>
+                    </div>
+                </div>
+                <div class="hero-visual fade-in">
+                    <div class="skill-card-animated">
+                        <h4>🎨 Personal Branding</h4>
+                        <p>Build a brand that gets you noticed.</p>
+                    </div>
+                    <div class="skill-card-animated">
+                        <h4>🤖 AI Tools Mastery</h4>
+                        <p>Leverage AI to 10x your productivity.</p>
+                    </div>
+                    <div class="skill-card-animated">
+                        <h4>🚀 Digital Business</h4>
+                        <p>Launch your first online venture.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof Section -->
+        <section class="social-proof fade-in">
+            <div class="container">
+                <h2>Trusted by Future Builders</h2>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="number">10,000+</div>
+                        <p>Learners Enrolled</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">100+</div>
+                        <p>Practical Lessons</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">50+</div>
+                        <p>Projects to Build</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills You Will Learn Section -->
+        <section id="skills" class="skills">
+            <div class="container">
+                <h2 class="fade-in">Skills You Will Learn</h2>
+                <div class="skills-grid">
+                    <div class="skill-card fade-in">
+                        <div class="icon">🤖</div>
+                        <h3>AI Tools</h3>
+                        <p>Master the best AI tools to automate tasks, generate content, and boost your productivity.</p>
+                    </div>
+                    <div class="skill-card fade-in">
+                        <div class="icon">✍️</div>
+                        <h3>Content Creation</h3>
+                        <p>Learn to create compelling content that builds an audience and opens up opportunities.</p>
+                    </div>
+                    <div class="skill-card fade-in">
+                        <div class="icon">💻</div>
+                        <h3>Coding Basics</h3>
+                        <p>Understand the fundamentals of web development and build your first websites and apps.</p>
+                    </div>
+                    <div class="skill-card fade-in">
+                        <div class="icon">🚀</div>
+                        <h3>Digital Business</h3>
+                        <p>From idea to launch, learn how to build and grow your own online business.</p>
+                    </div>
+                    <div class="skill-card fade-in">
+                        <div class="icon">🤔</div>
+                        <h3>Problem Solving</h3>
+                        <p>Develop a framework for thinking critically and solving complex, real-world problems.</p>
+                    </div>
+                    <div class="skill-card fade-in">
+                        <div class="icon">🎨</div>
+                        <h3>Personal Branding</h3>
+                        <p>Craft a unique personal brand that attracts opportunities and showcases your skills.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Why EKA is Different Section -->
+        <section class="why-eka">
+            <div class="container">
+                 <div class="illustration fade-in">💡</div>
+                <div class="fade-in">
+                    <h2>Education Should Build You, Not Just Test You</h2>
+                    <ul>
+                        <li>Learn by building, not by memorizing.</li>
+                        <li>Work on real projects you can be proud of.</li>
+                        <li>Zero boring theory, 100% practical application.</li>
+                        <li>Develop a creator and entrepreneurial mindset.</li>
+                        <li>Gain skills that make you future-ready.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Courses Section -->
+        <section id="courses" class="featured-courses">
+            <div class="container">
+                <h2 class="fade-in">Featured Courses</h2>
+                <div class="courses-grid">
+                    <div class="course-card fade-in">
+                        <div class="course-card-content">
+                            <h3>AI Tools For Students</h3>
+                            <div class="level">Beginner</div>
+                            <p>Build your personal AI workflow and 10x your productivity.</p>
+                            <div class="price">Free</div>
+                            <a href="#" class="btn btn-primary">View Course</a>
+                        </div>
+                    </div>
+                    <div class="course-card fade-in">
+                        <div class="course-card-content">
+                            <h3>Personal Branding Bootcamp</h3>
+                            <div class="level">All Levels</div>
+                            <p>Learn how to build a brand that gets you hired and noticed.</p>
+                             <div class="price">$99</div>
+                            <a href="#" class="btn btn-secondary">View Course</a>
+                        </div>
+                    </div>
+                    <div class="course-card fade-in">
+                        <div class="course-card-content">
+                            <h3>Web Dev for Beginners</h3>
+                            <div class="level">Beginner</div>
+                            <p>Build 3 real-world websites from scratch using HTML, CSS & JS.</p>
+                            <div class="price">$149</div>
+                            <a href="#" class="btn btn-secondary">View Course</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="fade-in">A Simple Path to Mastery</h2>
+                 <div class="steps-container">
+                    <div class="step-card fade-in">
+                        <div class="step-number">1️⃣</div>
+                        <h3>Learn the Concept</h3>
+                        <p>Grasp the core idea with short, focused lessons.</p>
+                    </div>
+                    <div class="step-card fade-in">
+                         <div class="step-number">2️⃣</div>
+                        <h3>Build a Project</h3>
+                        <p>Apply your knowledge immediately by building a project.</p>
+                    </div>
+                    <div class="step-card fade-in">
+                         <div class="step-number">3️⃣</div>
+                        <h3>Share Your Work</h3>
+                        <p>Showcase your project to get feedback and build a portfolio.</p>
+                    </div>
+                     <div class="step-card fade-in">
+                         <div class="step-number">4️⃣</div>
+                        <h3>Grow Your Skills</h3>
+                        <p>Level up with more advanced concepts and projects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="fade-in">Don't just take our word for it</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in">
+                        <p>“EKA made learning exciting again. I finally feel like I'm building skills that will actually help me in my career.”</p>
+                        <p class="author">- Sarah J., University Student</p>
+                    </div>
+                     <div class="testimonial-card fade-in">
+                        <p>“The project-based approach is a game-changer. I learned more in a month at EKA than in a year of online courses.”</p>
+                        <p class="author">- Michael P., Self-learner</p>
+                    </div>
+                     <div class="testimonial-card fade-in">
+                        <p>“I went from knowing nothing about content creation to landing my first freelance client. Highly recommended!”</p>
+                        <p class="author">- Chloe T., Creator</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section id="cta">
+            <div class="container">
+                <div class="cta-section fade-in">
+                    <h2>Your Skills Are Your Future. Start Today.</h2>
+                     <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary">Start Learning for Free</a>
+                        <a href="#" class="btn btn-secondary">Join Community</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column about">
+                    <h4>EKA School of Skills</h4>
+                    <p>Skills > Degrees</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Navigate</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#courses">Courses</a></li>
+                    </ul>
+                </div>
+                 <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">YouTube</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 EKA School of Skills. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(el => observer.observe(el));
+
+            // Hamburger menu logic
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const navLinks = document.querySelectorAll('.mobile-nav .nav-links a');
+
+            hamburger.addEventListener('click', () => {
+                mobileNav.classList.toggle('is-active');
+                hamburger.classList.toggle('is-active');
+            });
+
+            // Close mobile nav when a link is clicked
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.remove('is-active');
+                    hamburger.classList.remove('is-active');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
